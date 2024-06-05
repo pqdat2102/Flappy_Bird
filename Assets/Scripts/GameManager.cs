@@ -14,16 +14,28 @@ public class GameManager : MonoBehaviour
     public GameObject sign;
     private int score;
 
+    public AudioSource audioSource;
+    public AudioClip gameOverClip;
+    public AudioClip getScoreClip;
+
     public void Awake()
     {
         Application.targetFrameRate = 60;
         Pause();
     }
 
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();  
+        audioSource.clip = getScoreClip;
+    }
     public void Play()
     {
         score = 0;
         scoreText.text = score.ToString();
+
+        audioSource.Stop();
+        audioSource.clip = getScoreClip;
 
         gameOver.SetActive(false);  
         playBotton.SetActive(false);
@@ -51,13 +63,15 @@ public class GameManager : MonoBehaviour
         gameOver.SetActive(true);
         playBotton.SetActive(true); 
         sign.SetActive(true);
+        audioSource.clip = gameOverClip;
+        audioSource.Play();
         Pause();
     }
     public void IncreaseScore()
     {
         score++;
         scoreText.text = score.ToString();
+        audioSource.time = 0.5f;
+        audioSource.Play();
     }
-
-
 }

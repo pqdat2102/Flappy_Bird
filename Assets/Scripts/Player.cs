@@ -10,12 +10,16 @@ public class Player : MonoBehaviour
 
     private int spriteIndex;
 
-
     private Vector3 direction;
 
     public float gravity = -9.8f;
 
     public float strength = 5f;
+
+    public AudioClip flyClip;
+
+    public AudioSource audioSourcefly;
+
 
     private void Awake()
     {
@@ -24,14 +28,20 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        audioSourcefly = GetComponent<AudioSource>();
+        audioSourcefly.clip = flyClip;
+        
+
         InvokeRepeating(nameof(AnimateSprite), 0.15f, 0.15f); 
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-        {
+        {   
+            audioSourcefly.Play();
             direction = Vector3.up * strength;
+            audioSourcefly.Play();
         }
 
         // Check how many fingers touch the screen (for Mobile)
